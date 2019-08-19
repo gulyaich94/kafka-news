@@ -3,7 +3,6 @@ package com.gulyaich.news.kafkanews.model;
 import java.util.Date;
 
 public class News {
-    private String status;
     private String title;
     private String body;
     private Date date;
@@ -41,11 +40,12 @@ public class News {
         this.date = date;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    @Override
+    public String toString() {
+        return "News{" +
+                "title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                ", date=" + date +
+                '}';
     }
 }

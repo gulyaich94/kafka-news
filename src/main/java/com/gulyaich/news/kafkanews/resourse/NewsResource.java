@@ -6,6 +6,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.kafka.requestreply.RequestReplyFuture;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -26,7 +27,10 @@ public class NewsResource {
     private static final String TOPIC = "kafka_news";
 
     @Autowired
-    private ReplyingKafkaTemplate<String, News, News> kafkaTemplate;
+    private ReplyingKafkaTemplate<String, News, News> replyingKafkaTemplate;
+
+    @Autowired
+    private KafkaTemplate<String, News> kafkaTemplate;
 
     @Value("${kafka.topic.request-topic}")
     private String requestTopic;
@@ -35,26 +39,22 @@ public class NewsResource {
     private String requestReplyTopic;
 
     @PostMapping("/publish/")
-    public News publishNews(@RequestBody News news) throws InterruptedException, ExecutionException {
-        // create producer record
+    public void publishNews(@RequestBody News news) throws InterruptedException, ExecutionException {
+//        kafkaTemplate.send(requestTopic, news);
         ProducerRecord<String, News> record = new ProducerRecord<String, News>(requestTopic, news);
-        // set reply topic in header
         record.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, requestReplyTopic.getBytes()));
-        // post in kafka topic
-        RequestReplyFuture<String, News, News> sendAndReceive = kafkaTemplate.sendAndReceive(record);
-
-        // confirm if producer produced successfully
+        RequestReplyFuture<String, News, News> sendAndReceive = replyingKafkaTemplate.sendAndReceive(record);
+//         confirm if producer produced successfully
 //        SendResult<String, News> sendResult = sendAndReceive.getSendFuture().get();
-
+//
 
         //print all headers
         //sendResult.getProducerRecord().headers()
-                //.forEach(header -> System.out.println(header.key() + ":" + header.value().toString()));
+        //.forEach(header -> System.out.println(header.key() + ":" + header.value().toString()));
 
         // get consumer record
 //        ConsumerRecord<String, News> consumerRecord = sendAndReceive.get();
         // return consumer value
-//        return consumerRecord.value();
-        return null;
+//        System.out.println( consumerRecord.value());
     }
 }
