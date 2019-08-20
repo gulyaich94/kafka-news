@@ -12,8 +12,8 @@ public class KafkaConsumer {
     @Autowired
     private NewsResponseService newsResponseService;
 
-    @KafkaListener(topics = "${kafka.topic.requestreply-topic}", groupId = "${kafka.consumergroup}")
-    public void saveNewsSaveResult(NewsResponse newsResponse) {
-        newsResponseService.save(newsResponse);
-    }
+//    @KafkaListener(topics = "${kafka.topic.requestreply-topic}", groupId = "${kafka.consumergroup}")
+//    public void saveNewsSaveResult(NewsResponse newsResponse) {
+//        newsResponseService.save(newsResponse);
+//    }
 }
