@@ -1,17 +1,20 @@
-package com.gulyaich.news.kafkanews.resourse;
+package com.gulyaich.news.kafkanews.controller;
 
 import com.gulyaich.news.kafkanews.model.News;
+import com.gulyaich.news.kafkanews.model.NewsResponse;
+import com.gulyaich.news.kafkanews.service.NewsResponseService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.kafka.requestreply.RequestReplyFuture;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/kafka")
 @CrossOrigin(origins = "http://localhost:3000")
-public class NewsResource {
+public class NewsController {
 
     @Value("${kafka.topic.news.request}")
     private String requestTopic;
@@ -29,31 +32,32 @@ public class NewsResource {
     private String replyTopic;
 
     @Autowired
-    private ReplyingKafkaTemplate<String, News, News> replyKafkaTemplate;
+    private ReplyingKafkaTemplate<String, News, NewsResponse> replyKafkaTemplate;
+
+    @Autowired
+    private NewsResponseService newsResponseService;
 
     @PostMapping("/publish/")
-    public String publishNews(@RequestBody News news) {
+    public void publishNews(@RequestBody News news) {
 
         ProducerRecord<String, News> record = new ProducerRecord<>(requestTopic, news);
-        // set reply topic in header
         record.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, replyTopic.getBytes()));
-        // post in kafka topic
-        RequestReplyFuture<String, News, News> sendAndReceive = replyKafkaTemplate.sendAndReceive(record);
-        sendAndReceive.addCallback(new ListenableFutureCallback<ConsumerRecord<String, News>>() {
+        RequestReplyFuture<String, News, NewsResponse> sendAndReceive = replyKafkaTemplate.sendAndReceive(record);
+
+        sendAndReceive.addCallback(new ListenableFutureCallback<ConsumerRecord<String, NewsResponse>>() {
             @Override
-            public void onSuccess(ConsumerRecord<String, News> result) {
-                // get consumer record value
-                News replyNews = result.value();
-                System.out.println("Reply news: " + replyNews);
+            public void onSuccess(ConsumerRecord<String, NewsResponse> result) {
+                NewsResponse newsResponse = result.value();
+                System.out.println("News response: " + newsResponse);
+                newsResponseService.save(newsResponse);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                throwable.printStackTrace();
                 System.out.println("Error: " + throwable.getMessage());
+                throwable.printStackTrace();
             }
         });
-        
-        return "Success";
     }
+
 }

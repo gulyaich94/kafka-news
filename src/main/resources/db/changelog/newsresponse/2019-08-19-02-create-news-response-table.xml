@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2019-08-19-create-news-response-table" author="gulyaich">
+        <sql>
+            CREATE TABLE NEWS_RESPONSE (
+                NEWS_RESPONSE_ID bigint NOT NULL,
+                NEWS_STATUS varchar NOT NULL,
+                ERROR_REASON varchar(1024),
+                TITLE varchar(255),
+                BODY varchar,
+                DATE TIMESTAMP,
+                PRIMARY KEY(NEWS_RESPONSE_ID)
+            )
+        </sql>
+        <sql>COMMENT ON TABLE NEWS_RESPONSE IS 'Таблица результатов сохранения новости'</sql>
+        <sql>COMMENT ON COLUMN NEWS_RESPONSE.NEWS_RESPONSE_ID IS 'Идентификатор'</sql>
+        <sql>COMMENT ON COLUMN NEWS_RESPONSE.NEWS_STATUS IS 'Статус сохранения новости'</sql>
+        <sql>COMMENT ON COLUMN NEWS_RESPONSE.ERROR_REASON IS 'Причина ошибки'</sql>
+        <sql>COMMENT ON COLUMN NEWS_RESPONSE.TITLE IS 'Заголовок новости'</sql>
+        <sql>COMMENT ON COLUMN NEWS_RESPONSE.BODY IS 'Текст новости'</sql>
+        <sql>COMMENT ON COLUMN NEWS_RESPONSE.DATE IS 'Дата новости'</sql>
+        <rollback>drop table NEWS_RESPONSE</rollback>
+    </changeSet>
+</databaseChangeLog>

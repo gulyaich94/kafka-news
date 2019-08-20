@@ -1,6 +1,7 @@
 package com.gulyaich.news.kafkanews.config;
 
 import com.gulyaich.news.kafkanews.model.News;
+import com.gulyaich.news.kafkanews.model.NewsResponse;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -28,9 +29,6 @@ public class KafkaConfiguration {
 
     @Value("${kafka.topic.news.reply}")
     private String replyTopic;
-
-    @Value("${kafka.topic.news.request}")
-    private String requestTopic;
 
     @Value("${kafka.bootstrap-servers}")
     private String bootstrapServers;
@@ -64,22 +62,22 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public ConsumerFactory<String, News> replyConsumerFactory() {
-        final JsonDeserializer<News> jsonDeserializer = new JsonDeserializer<>(News.class, false);
+    public ConsumerFactory<String, NewsResponse> replyConsumerFactory() {
+        final JsonDeserializer<NewsResponse> jsonDeserializer = new JsonDeserializer<>(NewsResponse.class, false);
         jsonDeserializer.addTrustedPackages("*");
 
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), jsonDeserializer);
     }
 
     @Bean
-    public KafkaMessageListenerContainer<String, News> replyListenerContainer() {
+    public KafkaMessageListenerContainer<String, NewsResponse> replyListenerContainer() {
         ContainerProperties containerProperties = new ContainerProperties(replyTopic);
         return new KafkaMessageListenerContainer<>(replyConsumerFactory(), containerProperties);
     }
 
     @Bean
-    public ReplyingKafkaTemplate<String, News, News> replyKafkaTemplate(ProducerFactory<String, News> pf,
-                                                                        KafkaMessageListenerContainer<String, News> lc) {
+    public ReplyingKafkaTemplate<String, News, NewsResponse> replyKafkaTemplate(ProducerFactory<String, News> pf,
+                                                                                KafkaMessageListenerContainer<String, NewsResponse> lc) {
         return new ReplyingKafkaTemplate<>(pf, lc);
     }
 }

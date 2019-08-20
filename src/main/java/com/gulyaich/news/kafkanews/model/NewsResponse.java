@@ -3,7 +3,9 @@ package com.gulyaich.news.kafkanews.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -13,7 +15,8 @@ import java.util.Date;
 public class NewsResponse {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_response_generator")
+    @SequenceGenerator(name="news_response_generator", sequenceName = "SEQ_NEWS_RESPONSE_ID")
     @Column(name = "NEWS_RESPONSE_ID")
     private Long id;
 
@@ -79,5 +82,17 @@ public class NewsResponse {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "NewsResponse{" +
+                "id=" + id +
+                ", newsStatus=" + newsStatus +
+                ", errorReason='" + errorReason + '\'' +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                ", date=" + date +
+                '}';
     }
 }
