@@ -1,4 +1,4 @@
-package com.gulyaich.news.kafkanews.model;
+package com.gulyaich.news.kafkanews.model.news;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

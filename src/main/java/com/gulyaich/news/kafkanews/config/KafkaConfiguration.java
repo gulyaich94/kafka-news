@@ -1,7 +1,7 @@
 package com.gulyaich.news.kafkanews.config;
 
-import com.gulyaich.news.kafkanews.model.News;
-import com.gulyaich.news.kafkanews.model.NewsResponse;
+import com.gulyaich.news.kafkanews.model.news.News;
+import com.gulyaich.news.kafkanews.model.news.NewsResponse;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
