@@ -19,19 +19,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:3002")
 public class AuthController {
 
     @Autowired
@@ -107,7 +118,37 @@ public class AuthController {
 
         // Сохраняем в БД
         userRepository.save(user);
-        CommonResponse successResponce = new CommonResponse(true, "Пользователь успешно зарегистрирован");
-        return ResponseEntity.ok(successResponce);
+        CommonResponse successResponse = new CommonResponse(true, "Пользователь успешно зарегистрирован");
+        return ResponseEntity.ok(successResponse);
+    }
+
+    @GetMapping("/username")
+    public String currentUserName(Authentication authentication) {
+        if(authentication != null) {
+            return authentication.getName();
+        } else {
+            return "";
+        }
+    }
+
+    @GetMapping("/user")
+    public Principal currentUser(Principal principal) {
+        if(principal != null) {
+            return principal;
+        } else {
+            return null;
+        }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails){
+        Map<Object, Object> model = new HashMap<>();
+        model.put("username", userDetails.getUsername());
+        model.put("roles", userDetails.getAuthorities()
+                .stream()
+                .map(a -> ((GrantedAuthority) a).getAuthority())
+                .collect(toList())
+        );
+        return ResponseEntity.ok(model);
     }
 }

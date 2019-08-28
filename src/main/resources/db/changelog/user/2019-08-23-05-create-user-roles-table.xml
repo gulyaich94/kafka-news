@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2019-08-23-05-create-user-roles-table" author="gulyaich">
+        <sql>
+            CREATE TABLE USER_ROLES (
+                USER_ID bigint NOT NULL,
+                ROLE_ID bigint NOT NULL,
+                PRIMARY KEY(USER_ID, ROLE_ID),
+                CONSTRAINT FK_USER_ROLE_USER FOREIGN KEY (USER_ID) REFERENCES USER(ID),
+                CONSTRAINT FK_USER_ROLE_ROLE FOREIGN KEY (ROLE_ID) REFERENCES ROLE(ID),
+            )
+        </sql>
+        <sql>COMMENT ON TABLE USER_ROLES IS 'Таблица соответствия ролей пользователя'</sql>
+        <sql>COMMENT ON COLUMN USER_ROLES.USER_ID IS 'Идентификатор пользователя'</sql>
+        <sql>COMMENT ON COLUMN USER_ROLES.ROLE_ID IS 'Идентификатор роли'</sql>
+
+        <rollback>drop table USER_ROLES</rollback>
+        <rollback>ALTER TABLE USER_ROLES DROP CONSTRAINT FK_USER_ROLE_USER</rollback>
+        <rollback>ALTER TABLE USER_ROLES DROP CONSTRAINT FK_USER_ROLE_ROLE</rollback>
+    </changeSet>
+</databaseChangeLog>

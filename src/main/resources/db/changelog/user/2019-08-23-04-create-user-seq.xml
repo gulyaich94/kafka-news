@@ -6,6 +6,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <include file="changelog/newsresponse/newsresponse-changelog.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/user/user-changelog.xml" relativeToChangelogFile="true"/>
+    <changeSet id="2019-08-23-04-create-user-seq" author="gulyaich">
+        <sql>CREATE SEQUENCE SEQ_USER_ID</sql>
+        <rollback>DROP SEQUENCE SEQ_USER_ID</rollback>
+    </changeSet>
 </databaseChangeLog>

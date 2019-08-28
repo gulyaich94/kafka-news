@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <include file="2019-08-23-01-create-role-table.xml" relativeToChangelogFile="true"/>
+    <include file="2019-08-23-02-create-role-data.xml" relativeToChangelogFile="true"/>
+    <include file="2019-08-23-03-create-user-table.xml" relativeToChangelogFile="true"/>
+    <include file="2019-08-23-04-create-user-seq.xml" relativeToChangelogFile="true"/>
+    <include file="2019-08-23-05-create-user-roles-table.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

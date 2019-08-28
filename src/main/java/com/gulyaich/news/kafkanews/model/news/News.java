@@ -6,6 +6,7 @@ public class News {
     private String title;
     private String body;
     private Date date;
+    private String author;
 
     public News() {
     }
@@ -40,12 +41,21 @@ public class News {
         this.date = date;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     @Override
     public String toString() {
         return "News{" +
                 "title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 ", date=" + date +
+                ", author='" + author + '\'' +
                 '}';
     }
 }

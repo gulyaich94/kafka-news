@@ -2,6 +2,8 @@ package com.gulyaich.news.kafkanews.model.news;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,12 +17,13 @@ import java.util.Date;
 public class NewsResponse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_response_generator")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "news_response_generator")
     @SequenceGenerator(name="news_response_generator", sequenceName = "SEQ_NEWS_RESPONSE_ID")
     @Column(name = "NEWS_RESPONSE_ID")
     private Long id;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "NEWS_STATUS")
     private NewsStatus newsStatus;
 

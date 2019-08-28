@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.typePaper {
+  display: flex;
+  padding: 16px;
+  overflow: auto;
+  flex-direction: column;
+  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.87);
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #fff;
+  margin-bottom: 25px;
+}
+.MuiButtonBase-root.typeBtn {
+  margin: 8px;
+}
+.typeBtn .material-icons, .typeBtn svg {
+  margin-left: 8px;
+}
+.MuiButtonBase-root.typeFab {
+  margin: 8px;
+}
+.d-flex {
+  display: flex;
+}
+.f-wrap {
+  flex-wrap: wrap;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.typeM {
+  margin: 8px;
+}
+.typeForm .MuiFormControl-root {
+  margin-bottom: 25px;
+}
+.MuiSvgIcon-colorBlack {
+  color: #000;
+}
+.MuiTablePagination-root {
+  display: flex;
+  justify-content: flex-end;
+}
+.MuiTypography-root.paginationElementsCount, .paginationSelectSize {
+  margin-right: 15px;
+}
+.studentTable tr td:nth-child(3).MuiTableCell-root.MuiTableCell-body {
+  text-align: center;
+}
+.customSortBlock .MuiSelect-selectMenu, .customSortBlock .MuiSelect-root, .customSortBlock .MuiInputBase-root {
+  width: max-content;
+}
+.customSortBlock .MuiSelect-selectMenu {
+  min-width: 60px;
+}
+.customSortBlockWrapperRight {
+  display: flex;
+  justify-content: flex-end;
+}
+.newsItem {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #3f51b5;
+}
+.newsItem__title {
+  font-size: 17px;
+  margin-bottom: 7px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.0075em;
+}
+.newsItem__date {
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+.newsItem__body {
+  font-size: 14px;
+}
+@media (min-width: 1280px) {
+  .MuiContainer-maxWidthLg {
+    max-width: 100% !important;
+  }
+}

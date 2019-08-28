@@ -17,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -80,7 +81,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/h2-console/**").permitAll()
+                //.anyRequest().permitAll()
+                .anyRequest().authenticated()
+                .and().headers().frameOptions().sameOrigin();
 
         // Добавляем наш кастомный JWT-фильтр в цепочку фильтров
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

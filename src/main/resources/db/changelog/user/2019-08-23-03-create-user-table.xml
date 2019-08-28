@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2019-08-23-03-create-user-table" author="gulyaich">
+        <sql>
+            CREATE TABLE USER (
+            ID bigint NOT NULL,
+            FULLNAME varchar(40),
+            LOGIN varchar(15),
+            EMAIL varchar(40),
+            PASSWORD varchar(100),
+            CREATED_AT timestamp,
+            UPDATED_AT timestamp,
+            PRIMARY KEY(ID),
+            CONSTRAINT UC_USER_LOGIN UNIQUE (LOGIN),
+            CONSTRAINT UC_USER_EMAIL UNIQUE (EMAIL)
+            )
+        </sql>
+        <sql>COMMENT ON TABLE USER IS 'Таблица пользователей'</sql>
+        <sql>COMMENT ON COLUMN USER.ID IS 'Идентификатор'</sql>
+        <sql>COMMENT ON COLUMN USER.FULLNAME IS 'Имя пользователя'</sql>
+        <sql>COMMENT ON COLUMN USER.LOGIN IS 'Логин'</sql>
+        <sql>COMMENT ON COLUMN USER.EMAIL IS 'Почта'</sql>
+        <sql>COMMENT ON COLUMN USER.PASSWORD IS 'Пароль'</sql>
+        <sql>COMMENT ON COLUMN USER.CREATED_AT IS 'Время создания'</sql>
+        <sql>COMMENT ON COLUMN USER.UPDATED_AT IS 'Время изменения'</sql>
+
+        <rollback>drop table USER</rollback>
+        <rollback>ALTER TABLE Customer DROP CONSTRAINT UC_USER_LOGIN</rollback>
+        <rollback>ALTER TABLE Customer DROP CONSTRAINT UC_USER_EMAIL</rollback>
+    </changeSet>
+</databaseChangeLog>
