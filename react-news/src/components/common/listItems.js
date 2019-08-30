@@ -8,7 +8,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Link as RouterLink } from 'react-router-dom';
 
-export const mainListItems = (
+export const mainListItems = (isAuth) => (
   <div>
     <ListItem button component={RouterLink} to="/">
       <ListItemIcon>
@@ -16,24 +16,13 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Главная" />
     </ListItem>
-    <ListItem button component={RouterLink} to="/login/">
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Логин"/>
-    </ListItem>
-    <ListItem button component={RouterLink} to="/registration/">
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Регистрация"/>
-    </ListItem>
     <ListItem button component={RouterLink} to="/news/create/">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Создать новость"/>
+      <ListItemText primary="Создать новость" />
     </ListItem>
+    {authOutput(isAuth)}
   </div>
 );
 
@@ -60,3 +49,34 @@ export const secondaryListItems = (
     </ListItem>
   </div>
 );
+
+const authOutput = (isAuth) => {
+  if (isAuth) {
+    return (
+      <>
+        <ListItem button component={RouterLink} to="/logout/">
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Выйти" />
+        </ListItem>
+      </>);    
+  } else {
+    return (
+      <>
+        <ListItem button component={RouterLink} to="/login/">
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Логин" />
+        </ListItem>
+        <ListItem button component={RouterLink} to="/registration/">
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Регистрация" />
+        </ListItem>
+      </>);
+  }
+
+}

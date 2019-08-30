@@ -9,11 +9,10 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
+import MyContext from '../MyContext.js';
 
 const drawerWidth = 240;
 
@@ -96,7 +95,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function HeaderBuilder() {
+function HeaderBuilder(isAuth) {
   
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
@@ -122,13 +121,8 @@ function HeaderBuilder() {
               <MenuIcon />
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              Доска
+              Создание новостей
           </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -144,7 +138,7 @@ function HeaderBuilder() {
             </IconButton>
           </div>
           <Divider />
-          <List>{mainListItems}</List>
+          <List>{mainListItems(isAuth)}</List>
         </Drawer>
     </>
     );
@@ -153,10 +147,14 @@ function HeaderBuilder() {
 export class Header extends React.Component {
 
   render() {
+    const isAuth = (this.context.token && this.context.token.tokenType !== '' && this.context.token.accessToken !== '') ? true : false;
+    console.log("is Auth : " + isAuth);
     return (
         <>
-        <HeaderBuilder/>
+        <HeaderBuilder isAuth = {isAuth}/>
         </>
     );
   }
 }
+
+Header.contextType = MyContext;

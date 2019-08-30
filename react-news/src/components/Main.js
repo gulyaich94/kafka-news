@@ -8,6 +8,7 @@ import { Footer } from './common/Footer';
 import { NewsCreationPage } from './news/NewsCreationPage';
 import { RegistrationPage } from './auth/RegistrationPage';
 import { LoginPage } from './auth/LoginPage';
+import { LogoutPage } from './auth/LogoutPage';
 
 
 const drawerWidth = 240;
@@ -108,6 +109,7 @@ function Body() {
                             <Route path="/news/create/" component={NewsCreationPage} />
                             <Route path="/registration/" component={RegistrationPage} />
                             <Route path="/login/" component={LoginPage} />
+                            <Route path="/logout/" component={LogoutPage} />
                         </Switch>
                     </Grid>
                 </Grid>

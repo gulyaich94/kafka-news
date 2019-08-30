@@ -3,7 +3,6 @@ import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
-import Swal from 'sweetalert2'
 import MyContext from './MyContext.js';
 
 
@@ -15,12 +14,6 @@ export class MainPage extends React.Component {
     }
 
     componentDidMount() {
-        if (this.context.token == null) {
-            this.context.token = {
-                tokenType: '',
-                accessToken: ''
-            }
-        }
         axios.get(`http://localhost:8082/api/auth/user`, { headers: { "Authorization": `${this.context.token.tokenType} ${this.context.token.accessToken}` } })
             .then(res => {
                 const user = res.data;

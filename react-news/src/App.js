@@ -10,10 +10,10 @@ var styles = {
 };
 
 export class App extends React.Component {
-  
-  static propTypes = {
-    cookies: instanceOf(Cookies).isRequired
-  };
+
+  // static propTypes = {
+  //   cookies: instanceOf(Cookies).isRequired
+  // };
 
   constructor(props) {
     super(props);
@@ -36,20 +36,21 @@ export class App extends React.Component {
       updateToken: (token) => {
         const { cookies } = this.props;
         this.setState({ token });
-        cookies.set('token', token, { path: '/' });
+        cookies.set('token', token, { path: '/', maxAge: 60 * 60 * 24 * 7 });
       }
     };
   }
 
+  
   render() {
     return (
-        <MyContext.Provider value={this.state}>
-          {console.log(this.state.token)}
-          <div style={styles}>
-            <Header />
-            <Main />
-          </div>
-        </MyContext.Provider>
+      <MyContext.Provider value={this.state}>
+        {console.log(this.state.token)}
+        <div style={styles}>
+          <Header />
+          <Main />
+        </div>
+      </MyContext.Provider>
     );
   }
 }
